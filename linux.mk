@@ -1,6 +1,8 @@
 # This is a generic makefile for libyuv for gcc.
 # make -f linux.mk CXX=clang++
 
+prefix=/usr
+
 CXX?=g++
 CXXFLAGS?=-O2 -fomit-frame-pointer -fpic
 CXXFLAGS+=-Iinclude/
@@ -49,4 +51,12 @@ convert: util/convert.cc libyuv.a
 
 clean:
 	/bin/rm -f source/*.o *.ii *.s libyuv.a convert
+
+install: libyuv.a libyuv.so
+	install -m 644 libyuv.a $(prefix)/lib
+	install -m 644 libyuv.so $(prefix)/lib
+	install -m 644 include/libyuv.h $(prefix)/include
+	install -d -m 755 include/libyuv $(prefix)/include/libyuv
+	install -m 644 include/libyuv/* $(prefix)/include/libyuv
+	
 
