@@ -2,8 +2,9 @@
 # make -f linux.mk CXX=clang++
 
 CXX?=g++
-CXXFLAGS?=-O2 -fomit-frame-pointer
+CXXFLAGS?=-O2 -fomit-frame-pointer -fpic
 CXXFLAGS+=-Iinclude/
+LDFLAGS      = -shared
 
 LOCAL_OBJ_FILES := \
     source/compare.o           \
@@ -34,10 +35,13 @@ LOCAL_OBJ_FILES := \
 .cc.o:
 	$(CXX) -c $(CXXFLAGS) $*.cc -o $*.o
 
-all: libyuv.a convert
+all: libyuv.a libyuv.so convert
 
 libyuv.a: $(LOCAL_OBJ_FILES)
 	$(AR) $(ARFLAGS) $@ $(LOCAL_OBJ_FILES)
+
+libyuv.so: $(LOCAL_OBJ_FILES)
+	$(CXX) $(CXXFLAGS) $(LOCAL_OBJ_FILES) -o $@ $(LDFLAGS)
 
 # A test utility that uses libyuv conversion.
 convert: util/convert.cc libyuv.a
