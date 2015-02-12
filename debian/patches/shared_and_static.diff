@@ -1,0 +1,51 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ libyuv (0.0.1280-1) unstable; urgency=low
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Author: William King <william.king@quentustech.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- libyuv-0.0.1280.orig/CMakeLists.txt
++++ libyuv-0.0.1280/CMakeLists.txt
+@@ -9,6 +9,7 @@ set(ly_base_dir ${CMAKE_CURRENT_LIST_DIR
+ set(ly_src_dir ${ly_base_dir}/source/)
+ set(ly_inc_dir ${ly_base_dir}/include)
+ set(ly_lib_name "yuv")
++set(ly_shared_lib_name "yuv_shared")
+ 
+ set(ly_source_files
+   ${ly_src_dir}/compare.cc
+@@ -87,6 +88,8 @@ set(ly_header_files
+ include_directories(${ly_inc_dir})
+ 
+ add_library(${ly_lib_name} STATIC ${ly_source_files})
++add_library(${ly_shared_lib_name} SHARED ${ly_source_files})
++set_target_properties(${ly_shared_lib_name} PROPERTIES OUTPUT_NAME ${ly_lib_name})
+ 
+ add_executable(convert ${ly_base_dir}/util/convert.cc)
+ target_link_libraries(convert ${ly_lib_name})
+@@ -125,5 +128,6 @@ if(NACL AND NACL_LIBC STREQUAL "newlib")
+ endif()
+ 
+ install(TARGETS ${ly_lib_name} DESTINATION lib)
++install(TARGETS ${ly_shared_lib_name} DESTINATION lib)
+ install(FILES ${ly_header_files} DESTINATION include/libyuv)
+ install(FILES ${ly_inc_dir}/libyuv.h DESTINATION include/)
