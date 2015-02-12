@@ -1,0 +1,5 @@
+libyuv (0.0.1280-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- William King <william.king@quentustech.com>  Thu, 12 Feb 2015 09:47:31 -0800
