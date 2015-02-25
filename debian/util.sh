@@ -3,12 +3,12 @@
 if [ $# -eq 1 ]; then
 	CHANGELOG=/tmp/changelog.tmp.$$
 
-	echo "libyuv (0.0.1280-$1) stable; urgency=low" >$CHANGELOG
-	cat >> $CHANGELOG << 'EOF'
+	cat >> $CHANGELOG << EOF
+libyuv (0.0.1280-$1) stable; urgency=low
 
   * AutoBuild Revision Update
 
- -- William King <william.king@quentustech.com>  Thu, 12 Feb 2015 09:47:31 -0800
+ -- William King <william.king@quentustech.com>  `date -R`
 
 EOF
 	cat debian/changelog >> $CHANGELOG
