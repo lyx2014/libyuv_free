@@ -8,11 +8,12 @@ libyuv (0.0.1280-$1) stable; urgency=low
 
   * AutoBuild Revision Update
 
- -- William King <william.king@quentustech.com>  `date -R`
+ -- FreeSWITCH Autobuild <autobuild@freeswitch.org>  `date -R`
 
 EOF
 	cat debian/changelog >> $CHANGELOG
 	cp $CHANGELOG debian/changelog
+	rm $CHANGELOG
 
 fi
 
