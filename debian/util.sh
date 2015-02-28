@@ -17,4 +17,4 @@ EOF
 
 fi
 
-git-buildpackage --git-upstream-tree=origin/upstream -us -uc -sa --git-ignore-new
+git-buildpackage --git-upstream-tree=origin/master -us -uc -sa --git-ignore-new
