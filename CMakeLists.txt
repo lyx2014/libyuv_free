@@ -88,7 +88,7 @@ set(ly_header_files
 
 include_directories(${ly_inc_dir})
 
-add_library(${ly_lib_name} STATIC ${ly_source_files})
+add_library(${ly_lib_name} SHARED ${ly_source_files})
 
 add_executable(convert ${ly_base_dir}/util/convert.cc)
 target_link_libraries(convert ${ly_lib_name})
@@ -126,6 +126,15 @@ if(NACL AND NACL_LIBC STREQUAL "newlib")
   target_link_libraries(libyuv_unittest glibc-compat)
 endif()
 
+set(prefix ${CMAKE_INSTALL_PREFIX})
+set(exec_prefix "\${prefix}")
+set(libdir "\${exec_prefix}/lib${LIB_SUFFIX}")
+set(bindir "\${exec_prefix}/bin")
+set(includedir "\${prefix}/include")
+
+CONFIGURE_FILE("${ly_base_dir}/libyuv.pc.in" "${ly_base_dir}/libyuv.pc" @ONLY)
+
 install(TARGETS ${ly_lib_name} DESTINATION lib)
 install(FILES ${ly_header_files} DESTINATION include/libyuv)
 install(FILES ${ly_inc_dir}/libyuv.h DESTINATION include/)
+INSTALL(FILES "${ly_base_dir}/libyuv.pc" DESTINATION "lib${LIB_SUFFIX}/pkgconfig")

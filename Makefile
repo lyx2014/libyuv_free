@@ -1,9 +1,10 @@
 # This is a generic makefile for libyuv for gcc.
 # make -f linux.mk CXX=clang++
 
-PREFIX=/usr
-LIBDIR=$(DESTDIR)/$(PREFIX)/lib/
-INCDIR=$(DESTDIR)/$(PREFIX)/include/
+PREFIX:=/usr
+EXEC_PREFIX:=$(PREFIX)
+LIBDIR:=$(PREFIX)/lib/
+INCDIR:=$(PREFIX)/include/
 
 CXX?=g++
 CXXFLAGS?=-O2 -fomit-frame-pointer -fpic
@@ -54,15 +55,18 @@ convert: util/convert.cc libyuv.a
 clean:
 	/bin/rm -f source/*.o *.ii *.s libyuv.a convert
 
+libyuv.pc: libyuv.pc.in
+	sed -e "s;@prefix@;$(PREFIX);" -e "s;@exec_prefix@;$(EXEC_PREFIX);" -e "s;@libdir@;$(LIBDIR);" -e "s;@includedir@;$(INCDIR);" librtmp.pc.in > $@
+
 install: libyuv.a libyuv.so
-	install -d -m 755 $(LIBDIR)
-	install -d -m 755 $(INCDIR)
-	install -d -m 755 $(INCDIR)/libyuv
-	install -d -m 755 $(LIBDIR)/pkgconfig
-	install -m 644 libyuv.a $(LIBDIR)
-	install -m 644 libyuv.so $(LIBDIR)
-	install -m 644 libyuv.pc $(LIBDIR)/pkgconfig
-	install -m 644 include/libyuv.h $(INCDIR)
-	install -m 644 include/libyuv/* $(INCDIR)/libyuv
+	install -d -m 755 $(DESTDIR)/$(LIBDIR)
+	install -d -m 755 $(DESTDIR)/$(INCDIR)
+	install -d -m 755 $(DESTDIR)/$(INCDIR)/libyuv
+	install -d -m 755 $(DESTDIR)/$(LIBDIR)/pkgconfig
+	install -m 644 libyuv.a $(DESTDIR)/$(LIBDIR)
+	install -m 644 libyuv.so $(DESTDIR)/$(LIBDIR)
+	install -m 644 libyuv.pc $(DESTDIR)/$(LIBDIR)/pkgconfig
+	install -m 644 include/libyuv.h $(DESTDIR)/$(INCDIR)
+	install -m 644 include/libyuv/* $(DESTDIR)/$(INCDIR)/libyuv
 
 
