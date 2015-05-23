@@ -5,14 +5,14 @@
 
 Name:		libyuv
 Summary:	YUV conversion and scaling functionality library
-Version:	0.0
-Release:	0.1280%{?dist}
+Version:	0.0.1280
+Release:	0%{?dist}
 License:	BSD
 Group:		Development/Libraries
 Url:		http://code.google.com/p/libyuv/
 ## svn -r 522 export http://libyuv.googlecode.com/svn/trunk libyuv-0
 ## tar -cjvf libyuv-0.tar.bz2 libyuv-0
-Source0:	%{name}-%{version}.1280.tar.gz
+Source0:	%{name}-%{version}.tar.gz
 Source1:	%{name}.pc
 # Fedora-specific. Upstream isn't interested in this.
 #Patch1:		libyuv-0001-Initial-autotools-support.patch
@@ -47,7 +47,7 @@ Additional header files for development with %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}.1280
+%setup -q -n %{name}-%{version}
 #%patch1 -p1 -b .autotools
 #%patch2 -p1 -b .endian
 
