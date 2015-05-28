@@ -56,7 +56,7 @@ clean:
 	/bin/rm -f source/*.o *.ii *.s libyuv.a convert
 
 libyuv.pc: libyuv.pc.in
-	sed -e "s;@prefix@;$(PREFIX);" -e "s;@exec_prefix@;$(EXEC_PREFIX);" -e "s;@libdir@;$(LIBDIR);" -e "s;@includedir@;$(INCDIR);" librtmp.pc.in > $@
+	sed -e "s;@prefix@;$(PREFIX);" -e "s;@exec_prefix@;$(EXEC_PREFIX);" -e "s;@libdir@;$(LIBDIR);" -e "s;@includedir@;$(INCDIR);" libyuv.pc.in > $@
 
 install: libyuv.a libyuv.so
 	install -d -m 755 $(DESTDIR)/$(LIBDIR)
