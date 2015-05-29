@@ -40,7 +40,7 @@ LOCAL_OBJ_FILES := \
 .cc.o:
 	$(CXX) -c $(CXXFLAGS) $*.cc -o $*.o
 
-all: libyuv.a libyuv.so convert
+all: libyuv.a libyuv.so convert libyuv.pc
 
 libyuv.a: $(LOCAL_OBJ_FILES)
 	$(AR) $(ARFLAGS) $@ $(LOCAL_OBJ_FILES)
@@ -58,7 +58,7 @@ clean:
 libyuv.pc: libyuv.pc.in
 	sed -e "s;@prefix@;$(PREFIX);" -e "s;@exec_prefix@;$(EXEC_PREFIX);" -e "s;@libdir@;$(LIBDIR);" -e "s;@includedir@;$(INCDIR);" libyuv.pc.in > $@
 
-install: libyuv.a libyuv.so
+install: libyuv.a libyuv.so libyuv.pc
 	install -d -m 755 $(DESTDIR)/$(LIBDIR)
 	install -d -m 755 $(DESTDIR)/$(INCDIR)
 	install -d -m 755 $(DESTDIR)/$(INCDIR)/libyuv
