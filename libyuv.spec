@@ -13,7 +13,7 @@ Url:		http://code.google.com/p/libyuv/
 ## svn -r 522 export http://libyuv.googlecode.com/svn/trunk libyuv-0
 ## tar -cjvf libyuv-0.tar.bz2 libyuv-0
 Source0:	%{name}-%{version}.tar.gz
-Source1:	%{name}.pc
+Source1:	%{name}.pc.in
 # Fedora-specific. Upstream isn't interested in this.
 #Patch1:		libyuv-0001-Initial-autotools-support.patch
 # big endian fix - http://code.google.com/p/libyuv/issues/detail?id=171
@@ -48,22 +48,16 @@ Additional header files for development with %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
-#%patch1 -p1 -b .autotools
-#%patch2 -p1 -b .endian
-
 
 %build
-sed -i -e "s:STATIC:SHARED:" -e "s:\(include.FindJPEG.\):#\1:" CMakeLists.txt
-#sed -i -e "s:STATIC:SHARED:" CMakeLists.txt
+# Next two lines is hotfix for FS configure script
+sed -i -e "s:\(include.FindJPEG.\):#\1:" CMakeLists.txt
+sed -i -e "/Libs.private: -ljpeg/d" libyuv.pc.in
+
 mkdir out
 cd out
-cmake ..
-cmake --build .
-
-cp %SOURCE1 .
-lib_var=$(echo %{_libdir})
-lib_var=$(echo %{_libdir} | grep -oP "\/lib.*$")
-sed -i "s:^libdir=.*$:libdir=\${exec_prefix}$lib_var:" %{name}.pc
+%cmake ..
+make
 
 %install
 rm -rf %{buildroot}
@@ -72,7 +66,7 @@ mkdir -p %{buildroot}%{_includedir}
 mkdir -p %{buildroot}%{_libdir}/pkgconfig
 cp out/libyuv.so %{buildroot}%{_libdir}
 cp -R include/* %{buildroot}%{_includedir}
-cp out/%{name}.pc %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
+cp %{name}.pc %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 
 %clean
 rm -rf %{buildroot}
@@ -85,7 +79,6 @@ rm -rf %{buildroot}
 %files devel
 %{_includedir}/%{name}
 %{_includedir}/%{name}.h
-#%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 
 

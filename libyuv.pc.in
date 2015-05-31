@@ -4,7 +4,8 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: libyuv
-Description: libyuv
+Description: YUV conversion and scaling functionality library
 Version: 0.0.1280
 Cflags: -I${includedir}
 Libs: -L${libdir} -lyuv
+Libs.private: -ljpeg
